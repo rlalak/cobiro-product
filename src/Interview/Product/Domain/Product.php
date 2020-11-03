@@ -1,0 +1,48 @@
+<?php
+
+
+namespace Interview\Product\Domain;
+
+
+use Money\Money;
+
+class Product
+{
+    protected const MINIMUM_NAME_LENGTH = 3;
+
+    private string $name;
+    private Money $price;
+
+    public function __construct(string $name, Money $price)
+    {
+        $this->setName($name);
+        $this->price = $price;
+    }
+
+    protected function setName(string $name) : void
+    {
+        if (strlen($name) < self::MINIMUM_NAME_LENGTH) {
+            //throw;
+        }
+
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getPrice() : Money
+    {
+        return $this->price;
+    }
+
+
+}
