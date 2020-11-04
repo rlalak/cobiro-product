@@ -10,7 +10,14 @@ use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
-class DomainTest extends TestCase
+/**
+ * Class ProductTest
+ * @package App\Tests\unit\Interview\Product\Domain
+ *
+ * @covers \Interview\Product\Domain\Product
+ * @covers \App\Interview\Product\Domain\Exception\InvalidProductNameException
+ */
+class ProductTest extends TestCase
 {
     protected function getSomePrice() : Money
     {
