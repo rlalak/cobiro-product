@@ -4,11 +4,13 @@
 namespace Interview\Product\Domain;
 
 
+use App\Interview\Product\Domain\Exception\InvalidProductNameException;
 use Money\Money;
+use phpDocumentor\Reflection\Types\Static_;
 
 class Product
 {
-    protected const MINIMUM_NAME_LENGTH = 3;
+    public const MINIMUM_NAME_LENGTH = 3;
 
     protected string $name;
     protected Money $price;
@@ -21,8 +23,13 @@ class Product
 
     protected function setName(string $name) : void
     {
-        if (strlen($name) < self::MINIMUM_NAME_LENGTH) {
-            //throw;
+        $name = trim($name);
+        if (empty($name)) {
+            throw InvalidProductNameException::forEmptyName();
+        }
+
+        if (strlen($name) < static::MINIMUM_NAME_LENGTH) {
+            throw InvalidProductNameException::forTooShortName();
         }
 
         $this->name = $name;
