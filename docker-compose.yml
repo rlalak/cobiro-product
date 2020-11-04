@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+    app:
+        image: php:7.4.12-alpine
+        volumes:
+            - ./:/app
+        working_dir: /app/public
+        command: ["php", "-S", "0.0.0.0:8081"]
+        env_file:
+            -   .env
+        ports:
+            - 8081:8081
+        networks:
+            - stack
+    db:
+        image: mysql:8.0
+        restart: on-failure
+        environment:
+            MYSQL_ROOT_PASSWORD: c0B1r0
+            MYSQL_USER: inteview-user
+            MYSQL_PASSWORD: 1n73rvi3w
+        volumes:
+            - interview-db:/var/lib/mysql
+        networks:
+            - stack
+networks:
+    stack:
+
+volumes:
+    interview-db:

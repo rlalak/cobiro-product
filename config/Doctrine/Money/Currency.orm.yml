@@ -1,0 +1,6 @@
+Money\Currency:
+    type: embeddable
+    fields:
+        code:
+            type: text
+            nullable: false

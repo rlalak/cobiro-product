@@ -10,8 +10,8 @@ class Product
 {
     protected const MINIMUM_NAME_LENGTH = 3;
 
-    private string $name;
-    private Money $price;
+    protected string $name;
+    protected Money $price;
 
     public function __construct(string $name, Money $price)
     {
