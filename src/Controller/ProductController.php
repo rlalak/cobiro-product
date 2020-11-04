@@ -18,7 +18,7 @@ class ProductController
         try {
             $parameters = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
-            return new JsonResponse(['error' => 'Bad Parameters'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Bad Parameters', 'message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
         $command = new CreateProductCommand();
