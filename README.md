@@ -8,4 +8,4 @@ For dev purposes uncomment mounting code into container in `docker-compose.yml` 
 To run unit tests use command `bin/phpunit`
 
 Is better to call all scripts from `bin` directory inside application container to make sure environment where we run this script has all requiredments.
-You can log into container using command `docker exec -it cobiro-product_app_1 bash`.
+To call command inside application you have to run application and then use command like this `docker exec -it cobiro-product_app_1 bin/phpunit`.

@@ -14,6 +14,4 @@ RUN apt-get update && apt-get install -y git libzip-dev unzip \
 
 HEALTHCHECK --start-period=1m --interval=10s CMD curl --fail --silent -o /dev/null http://127.0.0.1:8081/ || exit 1
 
-WORKDIR /app/public
-
-CMD ["php", "-S", "0.0.0.0:8081"]
+CMD ["php", "-S", "0.0.0.0:8081", "-t", "public/"]
