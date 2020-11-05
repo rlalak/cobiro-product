@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Interview\Product\Domain\Exception;
+namespace Interview\Product\Exception;
 
 
 interface ProductExceptionInterface

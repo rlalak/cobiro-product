@@ -23,11 +23,18 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory>src/Interview/*/Application</directory>
+            <directory>src/Interview/*/Domain</directory>
         </whitelist>
     </filter>
+
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
+
+    <logging>
+        <log type="coverage-html" target="var/phpunit-report-unit" lowUpperBound="80" highLowerBound="90"/>
+        <log type="coverage-text" target="php://stdout" showOnlySummary="true"/>
+    </logging>
 </phpunit>

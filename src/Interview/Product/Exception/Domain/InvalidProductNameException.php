@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Interview\Product\Domain\Exception;
+namespace Interview\Product\Exception\Domain;
 
 
 use Interview\Product\Domain\Product;
+use Interview\Product\Exception\ProductExceptionInterface;
 use InvalidArgumentException;
 
 class InvalidProductNameException extends InvalidArgumentException implements ProductExceptionInterface

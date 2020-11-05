@@ -4,7 +4,7 @@
 namespace Interview\Product\Domain;
 
 
-use App\Interview\Product\Domain\Exception\InvalidProductNameException;
+use Interview\Product\Exception\Domain\InvalidProductNameException;
 use Money\Money;
 
 class Product

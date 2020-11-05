@@ -4,7 +4,7 @@
 namespace App\Tests\unit\Interview\Product\Domain;
 
 
-use App\Interview\Product\Domain\Exception\InvalidProductNameException;
+use Interview\Product\Exception\Domain\InvalidProductNameException;
 use Interview\Product\Domain\Product;
 use Money\Currency;
 use Money\Money;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  * @package App\Tests\unit\Interview\Product\Domain
  *
  * @covers \Interview\Product\Domain\Product
- * @covers \App\Interview\Product\Domain\Exception\InvalidProductNameException
+ * @covers \Interview\Product\Exception\Domain\InvalidProductNameException
  */
 class ProductTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ProductTest extends TestCase
         new Product($invalidName, $this->getSomePrice());
     }
 
-    public function invalidNameDataProvider(string $invalidName) : array
+    public function invalidNameDataProvider() : array
     {
         return [
             [''],

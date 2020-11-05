@@ -4,6 +4,7 @@
 namespace Interview\Product\Application;
 
 
+use App\Interview\Product\Exception\Application\InsufficientProductDataException;
 use Interview\Product\Domain\ProductFactoryInterface;
 use Interview\Product\Domain\ProductRepositoryInterface;
 
@@ -26,11 +27,11 @@ class CreateProductHandler
     public function handle(CreateProductCommand $command) : void
     {
         if ($command->name === null) {
-            //throw
+            throw InsufficientProductDataException::forNoProductName();
         }
 
         if ($command->priceAmount === null) {
-            //throw
+            throw InsufficientProductDataException::forNoProductPriceAmount();
         }
 
         $product = $this->productFactory->createFromRaw(
