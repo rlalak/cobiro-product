@@ -5,8 +5,8 @@ services:
         build: .
         depends_on:
             - db
-        volumes:
-            - ./:/app
+#        volumes:
+#            - ./:/app
         env_file:
             -   .env
         ports:
