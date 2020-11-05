@@ -3,10 +3,10 @@ version: '3.1'
 services:
     app:
         build: .
+        depends_on:
+            - db
         volumes:
             - ./:/app
-        working_dir: /app/public
-        command: ["php", "-S", "0.0.0.0:8081"]
         env_file:
             -   .env
         ports:

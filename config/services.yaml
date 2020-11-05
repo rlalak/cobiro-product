@@ -31,8 +31,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    Interview\Product\Infrastructure\ServiceEntityRepository:
+
     Interview\Product\Domain\ProductFactoryInterface:
-        class: Interview\Product\Domain\ProductFactory
+        class: Interview\Product\Infrastructure\ProductFactory
         arguments:
             $defaultPriceCurrency: '%defaultPriceCurrency%'
 

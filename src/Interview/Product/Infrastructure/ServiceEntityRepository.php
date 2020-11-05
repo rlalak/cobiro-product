@@ -11,7 +11,6 @@ namespace Interview\Product\Infrastructure;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository as DoctrineServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Interview\Product\Domain\Product;
 
 class ServiceEntityRepository extends DoctrineServiceEntityRepository
 {

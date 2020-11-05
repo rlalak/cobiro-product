@@ -6,7 +6,6 @@ namespace Interview\Product\Domain;
 
 use App\Interview\Product\Domain\Exception\InvalidProductNameException;
 use Money\Money;
-use phpDocumentor\Reflection\Types\Static_;
 
 class Product
 {
