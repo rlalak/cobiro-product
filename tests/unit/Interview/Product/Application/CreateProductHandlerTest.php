@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\unit\Interview\Product\Application;
+namespace UnitTests\unit\Interview\Product\Application;
 
 
 use App\Interview\Product\Exception\Application\InsufficientProductDataException;

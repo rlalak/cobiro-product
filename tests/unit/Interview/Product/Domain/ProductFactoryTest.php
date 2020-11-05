@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\unit\Interview\Product\Domain;
+namespace UnitTests\unit\Interview\Product\Domain;
 
 
 use Interview\Product\Domain\ProductFactory;

@@ -13,18 +13,18 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="7.5" />
+        <server name="DATABASE_URL" value="mysql://inteview-user:1n73rvi3w@db:3306/inteview?serverVersion=8.0" />
     </php>
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+            <directory>tests/integration</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory>src/Interview/*/Application</directory>
-            <directory>src/Interview/*/Domain</directory>
+            <directory>src/Interview/*/Infrastructure</directory>
         </whitelist>
     </filter>
 
