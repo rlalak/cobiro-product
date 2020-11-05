@@ -5,11 +5,20 @@ namespace IntegrationTests\Interview\Product\Infrastructure;
 
 
 use IntegrationTests\IntegrationTestCase;
+use Interview\Product\Domain\Product as DomainProduct;
+use Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException;
 use Interview\Product\Infrastructure\Product;
 use Interview\Product\Infrastructure\ProductRepository;
 use Money\Currency;
 use Money\Money;
 
+/**
+ * Class ProductRepositoryTest
+ * @package IntegrationTests\Interview\Product\Infrastructure
+ *
+ * @covers \Interview\Product\Infrastructure\ProductRepository
+ * @covers \Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException
+ */
 class ProductRepositoryTest extends IntegrationTestCase
 {
     protected ProductRepository $repository;
@@ -18,6 +27,15 @@ class ProductRepositoryTest extends IntegrationTestCase
     {
         /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $this->repository = $this->get(ProductRepository::class);
+    }
+
+    public function testThrowExceptionIfTryToSaveNonInfrastructureObject() : void
+    {
+        $product = new DomainProduct('nazwa', new Money('123', new Currency('PLN')));
+
+        $this->expectException(InvalidObjectToSaveException::class);
+
+        $this->repository->save($product);
     }
 
     public function testSaveProduct() : void
