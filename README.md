@@ -19,7 +19,9 @@ Run migrations to prepare database: `bin/console doctrine:migration:migrate`.
 To run unit tests use command `bin/phpunit`
 
 ## Example request
+```
 curl -X POST -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/product/save
+```
 
 ## Development
 For dev purposes uncomment mounting code into container in `docker-compose.yml` (uncomment section volumes) and run command `bin/bootstrap` to prepare application.
