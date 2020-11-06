@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use Interview\Product\Application\CreateProductCommand;
+use Interview\Product\Exception\ProductExceptionInterface;
 use JsonException;
 use League\Tactician\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +19,7 @@ class ProductController
         try {
             $parameters = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
-            return new JsonResponse(['error' => 'Bad Parameters', 'message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'Bad request', 'message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
         $command = new CreateProductCommand();
@@ -26,7 +27,11 @@ class ProductController
         $command->priceAmount = $parameters['priceAmount'] ?? null;
         $command->priceCurrency = $parameters['priceCurrency'] ?? null;
 
-        $commandBus->handle($command);
+        try {
+            $commandBus->handle($command);
+        }catch (ProductExceptionInterface $exception) {
+            return new JsonResponse(['error' => 'Bad parameters', 'message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
 
         return new JsonResponse(['OK']);
     }
