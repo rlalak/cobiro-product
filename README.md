@@ -1,7 +1,6 @@
 ### Interview app
 
-To run app use command `docker-compose up --build`
-App will be available on `http://127.0.0.1:8081/`
+To run app use command `docker-compose up --build`. App will be available on `http://127.0.0.1:8081/`
 
 For dev purposes uncomment mounting code into container in `docker-compose.yml` (uncomment section volumes) and run command `bin/bootstrap` to prepare application.
 
