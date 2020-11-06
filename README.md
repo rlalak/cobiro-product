@@ -1,4 +1,4 @@
-# Interview app
+### Interview app
 
 To run app use command `docker-compose up --build`
 App will be available on `http://127.0.0.1:8081/`
