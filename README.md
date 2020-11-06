@@ -1,4 +1,4 @@
-### Interview app
+# Interview app
 
 ## Downloading 
 Download app: `git clone https://github.com/rlalak/cobiro-product.git`
