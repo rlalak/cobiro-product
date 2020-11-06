@@ -1,4 +1,4 @@
-#Interview app
+# Interview app
 
 To run app use command `docker-compose up --build`
 App will be available on `http://127.0.0.1:8081/`
@@ -7,5 +7,5 @@ For dev purposes uncomment mounting code into container in `docker-compose.yml` 
 
 To run unit tests use command `bin/phpunit`
 
-Is better to call all scripts from `bin` directory inside application container to make sure environment where we run this script has all requiredments.
+Is better to call all scripts inside application container to make sure environment, where we run this script, meet all requirements.
 To call command inside application you have to run application and then use command like this `docker exec -it cobiro-product_app_1 bin/phpunit`.
