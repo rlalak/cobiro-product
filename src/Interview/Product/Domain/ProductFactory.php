@@ -9,7 +9,7 @@ use Money\Money;
 
 class ProductFactory implements ProductFactoryInterface
 {
-    private string $defaultPriceCurrency;
+    protected string $defaultPriceCurrency;
 
     public function __construct(string $defaultPriceCurrency)
     {
