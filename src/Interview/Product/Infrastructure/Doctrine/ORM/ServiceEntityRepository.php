@@ -7,10 +7,11 @@
 
 declare(strict_types=1);
 
-namespace Interview\Product\Infrastructure;
+namespace Interview\Product\Infrastructure\Doctrine\ORM;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository as DoctrineServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Interview\Product\Infrastructure\Product;
 
 class ServiceEntityRepository extends DoctrineServiceEntityRepository
 {

@@ -1,13 +1,14 @@
 <?php
 
 
-namespace Interview\Product\Infrastructure;
+namespace Interview\Product\Infrastructure\Doctrine\ORM;
 
 
 use Doctrine\ORM\EntityManagerInterface;
 use Interview\Product\Domain\Product as DomainProduct;
 use Interview\Product\Domain\ProductRepositoryInterface;
 use Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException;
+use Interview\Product\Infrastructure\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {

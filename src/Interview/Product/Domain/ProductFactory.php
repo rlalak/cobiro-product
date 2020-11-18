@@ -6,6 +6,7 @@ namespace Interview\Product\Domain;
 
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
 
 class ProductFactory implements ProductFactoryInterface
 {
@@ -16,13 +17,10 @@ class ProductFactory implements ProductFactoryInterface
         $this->defaultPriceCurrency = $defaultPriceCurrency;
     }
 
-    public function createFromRaw(string $name, string $priceAmount, ?string $priceCurrency = null) : Product
+    public function createFromRaw(string $code, string $name, string $priceAmount, ?string $priceCurrency = null) : Product
     {
-        return new Product($name, new Money($priceAmount, $this->getCurrency($priceCurrency)));
-    }
+        $currency = new Currency($priceCurrency ?? $this->defaultPriceCurrency);
 
-    protected function getCurrency(?string $currency) : Currency
-    {
-        return new Currency($currency ?? $this->defaultPriceCurrency);
+        return new Product(Uuid::fromString($code), new ProductName($name), new Money($priceAmount, $currency));
     }
 }

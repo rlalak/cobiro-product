@@ -4,35 +4,24 @@
 namespace Interview\Product\Domain;
 
 
-use Interview\Product\Exception\Domain\InvalidProductNameException;
 use Money\Money;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class Product
 {
-    public const MINIMUM_NAME_LENGTH = 3;
-
-    protected string $name;
+    protected ProductName $name;
     protected Money $price;
+    protected UuidInterface $code;
 
-    public function __construct(string $name, Money $price)
+    public function __construct(UuidInterface $code, ProductName $name, Money $price)
     {
-        $this->setName($name);
-        $this->price = $price;
-    }
-
-    protected function setName(string $name) : void
-    {
-        $name = trim($name);
-        if (empty($name)) {
-            throw InvalidProductNameException::forEmptyName();
-        }
-
-        if (strlen($name) < static::MINIMUM_NAME_LENGTH) {
-            throw InvalidProductNameException::forTooShortName();
-        }
-
         $this->name = $name;
+        $this->price = $price;
+
+        $this->code = Uuid::uuid1();
     }
+
 
     /**
      * @return string

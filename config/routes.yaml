@@ -1,4 +1,10 @@
-index:
-    path: /product/save
+create:
+    path: /product/create
     methods: POST
     controller: App\Controller\ProductController::save
+
+update:
+    path: /product/update
+    methods: PUT
+    controller: App\Controller\ProductController::save
+

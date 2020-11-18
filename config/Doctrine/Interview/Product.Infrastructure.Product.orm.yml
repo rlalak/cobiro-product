@@ -1,6 +1,6 @@
 Interview\Product\Infrastructure\Product:
     type: entity
-    repositoryClass: Interview\Product\Infrastructure\ServiceEntityRepository
+    repositoryClass: Interview\Product\Infrastructure\Doctrine\ORM\ServiceEntityRepository
     table: products
     id:
         id:
@@ -11,6 +11,10 @@ Interview\Product\Infrastructure\Product:
         name:
             type: string
             nullable: false
+        code:
+            type: uuid
+            nullable: false
+            unique: true
     embedded:
         price:
             class: Money\Money

@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Interview\Product\Application;
+namespace Interview\Product\Application\Command;
 
 
-use App\Interview\Product\Exception\Application\InsufficientProductDataException;
 use Interview\Product\Domain\ProductFactoryInterface;
 use Interview\Product\Domain\ProductRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 
-class CreateProductHandler
+class SaveProductHandler
 {
     protected ProductFactoryInterface $productFactory;
     protected ProductRepositoryInterface $productRepository;
@@ -24,17 +24,16 @@ class CreateProductHandler
         $this->productRepository = $productRepository;
     }
 
-    public function handle(CreateProductCommand $command) : void
+    public function handle(SaveProductCommand $command) : void
     {
-        if ($command->name === null) {
-            throw InsufficientProductDataException::forNoProductName();
-        }
+        $code = $command->code;
 
-        if ($command->priceAmount === null) {
-            throw InsufficientProductDataException::forNoProductPriceAmount();
+        if ($code === null) {
+            $code = Uuid::uuid4();
         }
 
         $product = $this->productFactory->createFromRaw(
+            $code,
             $command->name,
             $command->priceAmount,
             $command->priceCurrency

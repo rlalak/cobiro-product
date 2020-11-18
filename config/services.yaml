@@ -15,13 +15,13 @@ services:
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller/'
+        resource: '../src/App/Controller/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    Interview\Product\Infrastructure\ServiceEntityRepository:
+    Interview\Product\Infrastructure\Doctrine\ORM\ServiceEntityRepository:
 
     Interview\Product\Domain\ProductFactoryInterface:
         class: Interview\Product\Infrastructure\ProductFactory
@@ -29,9 +29,12 @@ services:
             $defaultPriceCurrency: '%defaultPriceCurrency%'
 
     Interview\Product\Domain\ProductRepositoryInterface:
-        class: Interview\Product\Infrastructure\ProductRepository
+        class: Interview\Product\Infrastructure\Doctrine\ORM\ProductRepository
+
+    Interview\Product\Application\Query\GetProductQueryInterface:
+        class: Interview\Product\Infrastructure\Doctrine\DBAL\Query\GetProductQuery
 
     interview.product.create_product_handler:
-        class: Interview\Product\Application\CreateProductHandler
+        class: Interview\Product\Application\Command\SaveProductHandler
         tags:
             - { name: tactician.handler, typehints: true }
