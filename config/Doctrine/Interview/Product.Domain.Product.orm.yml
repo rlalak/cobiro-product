@@ -1,21 +1,15 @@
-Interview\Product\Infrastructure\Product:
+Interview\Product\Domain\Product:
     type: entity
     repositoryClass: Interview\Product\Infrastructure\Doctrine\ORM\ServiceEntityRepository
     table: products
     id:
         id:
-            type: integer
-            generator:
-                strategy: AUTO
-    fields:
-        name:
-            type: string
-            nullable: false
-        code:
             type: uuid
-            nullable: false
-            unique: true
     embedded:
+        name:
+            class: Interview\Product\Domain\ProductName
+            columnPrefix: false
+            nullable: false
         price:
             class: Money\Money
             columnPrefix: price_

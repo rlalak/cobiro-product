@@ -5,35 +5,31 @@ namespace Interview\Product\Domain;
 
 
 use Money\Money;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Product
 {
+    protected UuidInterface $id;
     protected ProductName $name;
     protected Money $price;
-    protected UuidInterface $code;
 
-    public function __construct(UuidInterface $code, ProductName $name, Money $price)
+    public function __construct(UuidInterface $id, ProductName $name, Money $price)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->price = $price;
-
-        $this->code = Uuid::uuid1();
     }
 
+    public function getId() : UuidInterface
+    {
+        return $this->id;
+    }
 
-    /**
-     * @return string
-     */
-    public function getName() : string
+    public function getName() : ProductName
     {
         return $this->name;
     }
 
-    /**
-     * @return Money
-     */
     public function getPrice() : Money
     {
         return $this->price;

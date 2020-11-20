@@ -1,10 +1,25 @@
+getAll:
+    path: /products/
+    methods: GET
+    controller: App\Controller\ProductController::save
+
 create:
-    path: /product/create
+    path: /products/
     methods: POST
     controller: App\Controller\ProductController::save
 
+
+getById:
+    path: /products/{id}
+    methods: GET
+    controller: App\Controller\ProductController::save
+
 update:
-    path: /product/update
+    path: /products/{id}
     methods: PUT
     controller: App\Controller\ProductController::save
 
+delete:
+    path: /products/{id}
+    methods: DELETE
+    controller: App\Controller\ProductController::save

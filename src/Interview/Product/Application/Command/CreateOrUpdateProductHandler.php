@@ -6,9 +6,8 @@ namespace Interview\Product\Application\Command;
 
 use Interview\Product\Domain\ProductFactoryInterface;
 use Interview\Product\Domain\ProductRepositoryInterface;
-use Ramsey\Uuid\Uuid;
 
-class SaveProductHandler
+class CreateOrUpdateProductHandler
 {
     protected ProductFactoryInterface $productFactory;
     protected ProductRepositoryInterface $productRepository;
@@ -24,16 +23,10 @@ class SaveProductHandler
         $this->productRepository = $productRepository;
     }
 
-    public function handle(SaveProductCommand $command) : void
+    public function handle(CreateProductCommand $command) : void
     {
-        $code = $command->code;
-
-        if ($code === null) {
-            $code = Uuid::uuid4();
-        }
-
         $product = $this->productFactory->createFromRaw(
-            $code,
+            $command instanceof UpdateProductCommand ? $command->id :null,
             $command->name,
             $command->priceAmount,
             $command->priceCurrency

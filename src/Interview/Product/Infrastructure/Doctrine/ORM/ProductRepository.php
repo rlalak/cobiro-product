@@ -5,10 +5,9 @@ namespace Interview\Product\Infrastructure\Doctrine\ORM;
 
 
 use Doctrine\ORM\EntityManagerInterface;
-use Interview\Product\Domain\Product as DomainProduct;
+use Interview\Product\Domain\Product;
 use Interview\Product\Domain\ProductRepositoryInterface;
 use Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException;
-use Interview\Product\Infrastructure\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -24,15 +23,10 @@ class ProductRepository implements ProductRepositoryInterface
         $this->entityManager = $entityManager;
     }
 
-    public function save(DomainProduct $product) : void
+    public function save(Product $product) : void
     {
-        if ($product instanceof Product) {
-            $this->entityManager->persist($product);
-            $this->entityManager->flush();
-        } else {
-            throw InvalidObjectToSaveException::forNonInfrastructureProductObject();
-        }
-
+        $this->entityManager->merge($product);
+        $this->entityManager->flush();
     }
 
     public function getOneByName(string $name) : Product

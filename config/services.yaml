@@ -24,7 +24,7 @@ services:
     Interview\Product\Infrastructure\Doctrine\ORM\ServiceEntityRepository:
 
     Interview\Product\Domain\ProductFactoryInterface:
-        class: Interview\Product\Infrastructure\ProductFactory
+        class: Interview\Product\Domain\ProductFactory
         arguments:
             $defaultPriceCurrency: '%defaultPriceCurrency%'
 
@@ -35,6 +35,11 @@ services:
         class: Interview\Product\Infrastructure\Doctrine\DBAL\Query\GetProductQuery
 
     interview.product.create_product_handler:
-        class: Interview\Product\Application\Command\SaveProductHandler
+        class: Interview\Product\Application\Command\CreateOrUpdateProductHandler
         tags:
-            - { name: tactician.handler, typehints: true }
+            - { name: tactician.handler, command: Interview\Product\Application\Command\CreateProductCommand }
+
+    interview.product.update_product_handler:
+        class: Interview\Product\Application\Command\CreateOrUpdateProductHandler
+        tags:
+            - { name: tactician.handler, command: Interview\Product\Application\Command\UpdateProductCommand }

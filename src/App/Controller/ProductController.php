@@ -4,7 +4,8 @@
 namespace App\Controller;
 
 
-use Interview\Product\Application\Command\SaveProductCommand;
+use Interview\Product\Application\Command\CreateProductCommand;
+use Interview\Product\Application\Command\UpdateProductCommand;
 use Interview\Product\Exception\ProductExceptionInterface;
 use JsonException;
 use League\Tactician\CommandBus;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController
 {
-    public function save(Request $request, CommandBus $commandBus) : Response
+    public function save(Request $request, CommandBus $commandBus, ?string $id) : Response
     {
         try {
             $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -30,18 +31,13 @@ class ProductController
             return $this->getBadDataResponse('Product price amount is required');
         }
 
-        $productCode = null;
-        if ($request->getMethod() === 'PUT') {
-            if (!isset($data['priceAmount'])) {
-                return $this->getBadDataResponse('Product code is required');
-            }
-
-            $productCode = $data['code'];
+        if ($id !== null) {
+            $command = new UpdateProductCommand($id, $data['name'], $data['priceAmount']);
+        } else {
+            $command = new CreateProductCommand($data['name'], $data['priceAmount']);
         }
 
-        $command = new SaveProductCommand($data['name'], $data['priceAmount']);
         $command->priceCurrency = $data['priceCurrency'] ?? null;
-        $command->code = $productCode;
 
         try {
             $commandBus->handle($command);
@@ -49,7 +45,7 @@ class ProductController
             return $this->getBadDataResponse($exception->getMessage());
         }
 
-        return new JsonResponse(['status' => 'OK', 'data' => ['productCode' => $productCode]]);
+        return new JsonResponse(['status' => 'OK']);
     }
 
     protected function getBadDataResponse(string $message) : Response

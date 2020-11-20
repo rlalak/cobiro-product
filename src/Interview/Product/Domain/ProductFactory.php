@@ -4,8 +4,10 @@
 namespace Interview\Product\Domain;
 
 
+use Interview\Product\Exception\Domain\InvalidProductIdException;
 use Money\Currency;
 use Money\Money;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 
 class ProductFactory implements ProductFactoryInterface
@@ -17,10 +19,16 @@ class ProductFactory implements ProductFactoryInterface
         $this->defaultPriceCurrency = $defaultPriceCurrency;
     }
 
-    public function createFromRaw(string $code, string $name, string $priceAmount, ?string $priceCurrency = null) : Product
+    public function createFromRaw(?string $id, string $name, string $priceAmount, ?string $priceCurrency = null) : Product
     {
         $currency = new Currency($priceCurrency ?? $this->defaultPriceCurrency);
 
-        return new Product(Uuid::fromString($code), new ProductName($name), new Money($priceAmount, $currency));
+        try {
+            $productId = $id === null ? Uuid::uuid4() : Uuid::fromString($id);
+        } catch (InvalidUuidStringException $exception) {
+            throw InvalidProductIdException::forInvalidUuidStringException($exception);
+        }
+
+        return new Product($productId, new ProductName($name), new Money($priceAmount, $currency));
     }
 }

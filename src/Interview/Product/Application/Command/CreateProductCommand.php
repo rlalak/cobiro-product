@@ -4,12 +4,11 @@
 namespace Interview\Product\Application\Command;
 
 
-class SaveProductCommand
+class CreateProductCommand
 {
     public string $name;
     public string $priceAmount;
     public ?string $priceCurrency = null;
-    public ?string $code = null;
 
     public function __construct(string $name, string $priceAmount)
     {

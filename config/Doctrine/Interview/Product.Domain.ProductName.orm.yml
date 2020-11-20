@@ -1,6 +1,6 @@
-Money\Currency:
+Interview\Product\Domain\ProductName:
     type: embeddable
     fields:
-        code:
+        name:
             type: text
             nullable: false
