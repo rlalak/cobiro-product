@@ -7,7 +7,7 @@ namespace Interview\Product\Infrastructure\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Interview\Product\Domain\Product;
 use Interview\Product\Domain\ProductRepositoryInterface;
-use Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException;
+use Ramsey\Uuid\UuidInterface;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -27,6 +27,15 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $this->entityManager->merge($product);
         $this->entityManager->flush();
+    }
+
+    public function remove(UuidInterface $id) : void
+    {
+        $product = $this->entityRepository->find($id);
+        if ($product !== null) {
+            $this->entityManager->remove($product);
+            $this->entityManager->flush();
+        }
     }
 
     public function getOneByName(string $name) : Product

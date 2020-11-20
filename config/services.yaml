@@ -43,3 +43,9 @@ services:
         class: Interview\Product\Application\Command\CreateOrUpdateProductHandler
         tags:
             - { name: tactician.handler, command: Interview\Product\Application\Command\UpdateProductCommand }
+
+
+    interview.product.remove_product_handler:
+        class: Interview\Product\Application\Command\RemoveProductHandler
+        tags:
+            - { name: tactician.handler, typehints: true }

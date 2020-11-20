@@ -1,0 +1,16 @@
+<?php
+
+
+namespace Interview\Product\Exception\Infrastructure;
+
+
+use Interview\Product\Exception\ProductExceptionInterface;
+use InvalidArgumentException;
+
+class ProductNotFoundException  extends InvalidArgumentException implements ProductExceptionInterface
+{
+    public static function forId(string $id) : ProductNotFoundException
+    {
+        return new static("Product with id `{$id}` not found.");
+    }
+}

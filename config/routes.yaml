@@ -1,25 +1,25 @@
-getAll:
+getAllProducts:
     path: /products/
     methods: GET
-    controller: App\Controller\ProductController::save
+    controller: App\Controller\ProductController::getAll
 
-create:
+createProduct:
     path: /products/
     methods: POST
     controller: App\Controller\ProductController::save
 
 
-getById:
+getProduct:
     path: /products/{id}
     methods: GET
-    controller: App\Controller\ProductController::save
+    controller: App\Controller\ProductController::getById
 
-update:
+updateProduct:
     path: /products/{id}
     methods: PUT
     controller: App\Controller\ProductController::save
 
-delete:
+deleteProduct:
     path: /products/{id}
     methods: DELETE
-    controller: App\Controller\ProductController::save
+    controller: App\Controller\ProductController::remove

@@ -5,7 +5,10 @@ namespace App\Controller;
 
 
 use Interview\Product\Application\Command\CreateProductCommand;
+use Interview\Product\Application\Command\RemoveProductCommand;
 use Interview\Product\Application\Command\UpdateProductCommand;
+use Interview\Product\Application\Query\GetProductQueryInterface;
+use Interview\Product\Exception\Infrastructure\ProductNotFoundException;
 use Interview\Product\Exception\ProductExceptionInterface;
 use JsonException;
 use League\Tactician\CommandBus;
@@ -46,6 +49,33 @@ class ProductController
         }
 
         return new JsonResponse(['status' => 'OK']);
+    }
+
+    public function remove(CommandBus $commandBus, string $id) : Response
+    {
+        try {
+            $commandBus->handle(new RemoveProductCommand($id));
+        } catch (ProductExceptionInterface $exception) {
+            return $this->getBadDataResponse($exception->getMessage());
+        }
+
+        return new JsonResponse(['status' => 'OK']);
+    }
+
+    public function getAll(GetProductQueryInterface $getProductQuery) : Response
+    {
+        return new JsonResponse(['status' => 'OK', 'data' => $getProductQuery->getAlProducts()]);
+    }
+
+    public function getById(string $id, GetProductQueryInterface $getProductQuery) : Response
+    {
+        try {
+            $product = $getProductQuery->getProduct($id);
+        } catch (ProductNotFoundException $exception) {
+            return new JsonResponse(['error' => 'Product not found.'], 404);
+        }
+
+        return new JsonResponse(['status' => 'OK', 'data' => $product]);
     }
 
     protected function getBadDataResponse(string $message) : Response

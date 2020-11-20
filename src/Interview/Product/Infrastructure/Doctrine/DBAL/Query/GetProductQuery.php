@@ -6,6 +6,7 @@ namespace Interview\Product\Infrastructure\Doctrine\DBAL\Query;
 use Doctrine\DBAL\Connection;
 use Interview\Product\Application\Query\GetProductQueryInterface;
 use Interview\Product\Application\Query\ProductView;
+use Interview\Product\Exception\Infrastructure\ProductNotFoundException;
 
 class GetProductQuery implements GetProductQueryInterface
 {
@@ -16,20 +17,43 @@ class GetProductQuery implements GetProductQueryInterface
         $this->connection = $connection;
     }
 
-    public function getProductDetails(string $productId) : ProductView
+    public function getProduct(string $productId) : ProductView
     {
-        $result = $this->connection->fetchAssociative('
-            SELECT u.id, u.email FROM example_user u
-            WHERE u.email = :email',
-            [
-                ':email' => 'email',
-            ]
+        $result = $this->connection->fetchAssociative(
+            'SELECT * FROM products WHERE id = :id',
+            [':id' => $productId,]
         );
 
         if (!$result) {
-            throw new NotFoundException();
+            throw ProductNotFoundException::forId($productId);
         }
 
-        return new ProductView($result['id'], $result['email']);
+        return $this->createProductViewFromArray($result);
+    }
+
+    /**
+     * @return ProductView[]
+     */
+    public function getAlProducts() : array
+    {
+        $result = $this->connection->fetchAllAssociative('SELECT * FROM products');
+
+        $productList = [];
+        foreach ($result as $productData) {
+            $productList[] = $this->createProductViewFromArray($productData);
+        }
+
+        return $productList;
+    }
+
+    protected function createProductViewFromArray(array $productData) : ProductView
+    {
+        $product = new ProductView();
+        $product->id = $productData['id'];
+        $product->name = $productData['name'];
+        $product->price = $productData['price_amount'];
+        $product->currency = $productData['price_currency'];
+
+        return $product;
     }
 }
