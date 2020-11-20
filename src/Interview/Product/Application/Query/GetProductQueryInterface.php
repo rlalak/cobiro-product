@@ -6,7 +6,7 @@ namespace Interview\Product\Application\Query;
 
 interface GetProductQueryInterface
 {
-    public function getProduct(string $productId) : ProductView;
+    public function getProduct(string $id) : ProductView;
 
     /**
      * @return ProductView[]

@@ -28,22 +28,25 @@ class ProductProjection implements ProductProjectionInterface, GetProductQueryIn
 
         $item->set(['name' => $name, 'price_amount' => $priceAmount, 'price_currency' => $priceCurrency]);
         $this->adapter->save($item);
+
+        $this->rememberProductId($id);
     }
 
     public function removeProduct(string $id) : void
     {
         $this->adapter->deleteItem($this->adapter->getItem($id));
+        $this->forgotProductId($id);
     }
 
-    public function getProduct(string $productId) : ProductView
+    public function getProduct(string $id) : ProductView
     {
-        $item = $this->adapter->getItem($productId);
+        $item = $this->adapter->getItem($id);
         if (!$item->isHit()) {
-            throw ProductNotFoundException::forIdAsString($productId);
+            throw ProductNotFoundException::forIdAsString($id);
         }
 
         $productData = $item->get();
-        $productData['id'] = $productId;
+        $productData['id'] = $id;
 
         return $this->createProductViewFromArray($productData);
     }
@@ -53,8 +56,11 @@ class ProductProjection implements ProductProjectionInterface, GetProductQueryIn
         $items = $this->adapter->getItems($this->getAllProductsId());
         $products = [];
 
-        foreach ($items as $item) {
-            $products[] = $this->createProductViewFromArray($item->get());
+        foreach ($items as $key => $item) {
+            $productData = $item->get();
+            $productData['id'] = $key;
+
+            $products[] = $this->createProductViewFromArray($productData);
         }
 
         return $products;
@@ -67,11 +73,43 @@ class ProductProjection implements ProductProjectionInterface, GetProductQueryIn
 
     protected function getAllProductsId() : array
     {
+        // this is not the best solution (especially for large number of products) but the easiest one when using AdapterInterface
+        $item = $this->adapter->getItem('all-ids');
 
+        if ($item->isHit()) {
+            return array_keys($item->get());
+        }
+
+        return [];
     }
 
     protected function rememberProductId(string $id) : void
     {
+        $item = $this->adapter->getItem('all-ids');
 
+        if ($item->isHit()) {
+            $allIds = $item->get();
+            $allIds[$id] = 1;
+
+            $item->set($allIds);
+        } else {
+            $item->set([$id => 1]);
+        }
+
+        $this->adapter->save($item);
+    }
+
+    protected function forgotProductId(string $id) : void
+    {
+        $item = $this->adapter->getItem('all-ids');
+
+        if ($item->isHit()) {
+            $allIds = $item->get();
+            unset($allIds[$id]);
+
+            $item->set($allIds);
+        }
+
+        $this->adapter->save($item);
     }
 }

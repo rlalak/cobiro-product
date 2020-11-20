@@ -20,15 +20,15 @@ class GetProductQuery implements GetProductQueryInterface
         $this->connection = $connection;
     }
 
-    public function getProduct(string $productId) : ProductView
+    public function getProduct(string $id) : ProductView
     {
         $result = $this->connection->fetchAssociative(
             'SELECT * FROM products WHERE id = :id',
-            [':id' => $productId,]
+            [':id' => $id,]
         );
 
         if (!$result) {
-            throw ProductNotFoundException::forIdAsString($productId);
+            throw ProductNotFoundException::forIdAsString($id);
         }
 
         return $this->createProductViewFromArray($result);
