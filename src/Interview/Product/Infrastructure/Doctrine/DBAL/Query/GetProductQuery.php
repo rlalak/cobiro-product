@@ -25,7 +25,7 @@ class GetProductQuery implements GetProductQueryInterface
         );
 
         if (!$result) {
-            throw ProductNotFoundException::forId($productId);
+            throw ProductNotFoundException::forIdAsString($productId);
         }
 
         return $this->createProductViewFromArray($result);

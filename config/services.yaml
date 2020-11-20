@@ -49,3 +49,10 @@ services:
         class: Interview\Product\Application\Command\RemoveProductHandler
         tags:
             - { name: tactician.handler, typehints: true }
+
+    interview.product.projector:
+        class: Interview\Product\Domain\Event\ProductProjector
+        tags:
+            - { name: kernel.event_listener, event: Interview\Product\Domain\Event\ProductCreatedEvent, method: whenProductCreated }
+            - { name: kernel.event_listener, event: Interview\Product\Domain\Event\ProductUpdatedEvent, method: whenProductUpdated }
+            - { name: kernel.event_listener, event: Interview\Product\Domain\Event\ProductRemovedEvent, method: whenProductRemoved }

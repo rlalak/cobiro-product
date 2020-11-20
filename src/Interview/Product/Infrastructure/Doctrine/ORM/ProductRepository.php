@@ -7,6 +7,7 @@ namespace Interview\Product\Infrastructure\Doctrine\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Interview\Product\Domain\Product;
 use Interview\Product\Domain\ProductRepositoryInterface;
+use Interview\Product\Exception\Infrastructure\ProductNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 
 class ProductRepository implements ProductRepositoryInterface
@@ -32,17 +33,10 @@ class ProductRepository implements ProductRepositoryInterface
     public function remove(UuidInterface $id) : void
     {
         $product = $this->entityRepository->find($id);
-        if ($product !== null) {
-            $this->entityManager->remove($product);
-            $this->entityManager->flush();
+        if ($product === null) {
+            throw ProductNotFoundException::forId($id);
         }
-    }
-
-    public function getOneByName(string $name) : Product
-    {
-        /** @var Product $product */
-        $product = $this->entityRepository->findOneBy(['name' => $name]);
-
-        return $product;
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
     }
 }
