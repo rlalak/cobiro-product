@@ -17,9 +17,8 @@ services:
     App\Controller\:
         resource: '../src/App/Controller/'
         tags: ['controller.service_arguments']
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Command\:
+        resource: '../src/App/Command'
 
     interview.redis.connection:
         class: Redis
