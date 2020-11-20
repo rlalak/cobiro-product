@@ -1,12 +1,21 @@
 <?php
 
 
-namespace UnitTests\unit\Interview\Product\Domain;
+namespace UnitTests\Interview\Product\Domain;
 
 
 use Interview\Product\Domain\ProductFactory;
+use Interview\Product\Exception\Domain\InvalidProductIdException;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
+/**
+ * Class ProductFactoryTest
+ * @package UnitTests\Interview\Product\Domain
+ *
+ * @covers \Interview\Product\Domain\ProductFactory
+ * @covers \Interview\Product\Exception\Domain\InvalidProductIdException
+ */
 class ProductFactoryTest extends TestCase
 {
     protected string $defaultPriceCurrency;
@@ -25,7 +34,7 @@ class ProductFactoryTest extends TestCase
     {
         $this->defaultPriceCurrency = 'EUR';
 
-        $product = $this->getFactory()->createFromRaw('abc', '12');
+        $product = $this->getFactory()->createFromRaw(Uuid::uuid1(), 'abc', '12');
 
         $this->assertEquals('abc', $product->getName());
         $this->assertEquals('12', $product->getPrice()->getAmount());
@@ -34,12 +43,17 @@ class ProductFactoryTest extends TestCase
 
     public function testItCreateProductFromRawDataWithGivenCurrency() : void
     {
-        $this->defaultPriceCurrency = 'EUR';
-
-        $product = $this->getFactory()->createFromRaw('xyz', '21', 'USD');
+        $product = $this->getFactory()->createFromRaw(Uuid::uuid1(), 'xyz', '21', 'USD');
 
         $this->assertEquals('xyz', $product->getName());
         $this->assertEquals('21', $product->getPrice()->getAmount());
         $this->assertEquals('USD', $product->getPrice()->getCurrency()->getCode());
+    }
+
+    public function testItThrowExceptionForInvalidIdFormat()
+    {
+        $this->expectException(InvalidProductIdException::class);
+
+        $this->getFactory()->createFromRaw('non-uuid', 'xyz', '21', 'USD');
     }
 }

@@ -1,14 +1,15 @@
 <?php
 
 
-namespace UnitTests\unit\Interview\Product\Domain;
+namespace UnitTests\Interview\Product\Domain;
 
 
-use Interview\Product\Exception\Domain\InvalidProductNameException;
+use Interview\Product\Domain\ProductName;
 use Interview\Product\Domain\Product;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Class ProductTest
@@ -24,48 +25,44 @@ class ProductTest extends TestCase
         return new Money('100', new Currency('PLN'));
     }
 
-    public function testCanCreateObjectWithNameAndPrice() : void
+    protected function getSomeUuid() : UuidInterface
     {
-        $product = new Product('testName', $this->getSomePrice());
+        return $this->prophesize(UuidInterface::class) ->reveal();
+    }
+
+    protected function getSomeName() : ProductName
+    {
+        return $this->prophesize(ProductName::class) ->reveal();
+    }
+
+    public function testCanCreateObjectWithIdNameAndPrice() : void
+    {
+        $product = new Product($this->getSomeUuid(), $this->getSomeName(), $this->getSomePrice());
 
         $this->assertInstanceOf(Product::class, $product);
     }
 
-    /**
-     * @param string $invalidName
-     *
-     * @dataProvider invalidNameDataProvider
-     */
-    public function testShouldThrowExceptionForInvalidName(string $invalidName) : void
+    public function testGetterReturnProductId() : void
     {
-        $this->expectException(InvalidProductNameException::class);
+        $id = $this->getSomeUuid();
+        $product = new Product($id, $this->getSomeName(), $this->getSomePrice());
 
-        new Product($invalidName, $this->getSomePrice());
+        $this->assertEquals($id, $product->getId());
     }
 
-    public function invalidNameDataProvider() : array
+    public function testGetterReturnProductName() : void
     {
-        return [
-            [''],
-            [' '],
-            ['12'],
-            ['ab'],
-            [' 12 ']
-        ];
+        $name = $this->getSomeName();
+        $product = new Product($this->getSomeUuid(), $name, $this->getSomePrice());
+
+        $this->assertEquals($name, $product->getName());
     }
 
     public function testGetterReturnProductPrice() : void
     {
         $price = $this->getSomePrice();
-        $product = new Product('testName', $price);
+        $product = new Product($this->getSomeUuid(), $this->getSomeName(), $price);
 
         $this->assertEquals($price, $product->getPrice());
-    }
-
-    public function testGetterReturnProductName() : void
-    {
-        $product = new Product('testName', $this->getSomePrice());
-
-        $this->assertEquals('testName', $product->getName());
     }
 }
