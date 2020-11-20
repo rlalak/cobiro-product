@@ -68,3 +68,8 @@ services:
     Interview\Product\Domain\ProductProjectionInterface:
         class: Interview\Product\Infrastructure\Redis\ProductProjection
         arguments: ['@interview.product.projection.adapter']
+
+    Interview\Product\Domain\Notification\ProductNotificationInterface:
+        class: Interview\Product\Infrastructure\ProductNotification
+        tags:
+            - { name: kernel.event_listener, event: Interview\Product\Domain\Event\ProductCreatedEvent, method: notifyProductCreated }

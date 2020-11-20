@@ -38,9 +38,9 @@ class CreateOrUpdateProductHandler
         $this->productRepository->save($product);
 
         if ($command instanceof UpdateProductCommand) {
-            $event = new ProductCreatedEvent($product);
-        } else {
             $event = new ProductUpdatedEvent($product);
+        } else {
+            $event = new ProductCreatedEvent($product);
         }
 
         $this->eventDispatcher->dispatch($event);
