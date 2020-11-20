@@ -10,7 +10,7 @@ services:
         env_file:
             -   .env
         ports:
-            - 8081:8081
+            - 8081:80
         networks:
             - stack
     db:
@@ -27,8 +27,16 @@ services:
             - interview-db:/var/lib/mysql
         networks:
             - stack
+    redis:
+        image: redis:6
+        command: redis-server --appendonly yes
+        volumes:
+            - interview-redis:/data
+        networks:
+            - stack
 networks:
     stack:
 
 volumes:
     interview-db:
+    interview-redis:

@@ -4,12 +4,15 @@
 namespace Interview\Product\Infrastructure\Doctrine\DBAL\Query;
 
 use Doctrine\DBAL\Connection;
+use Interview\Product\Infrastructure\CreateProductViewTrait;
 use Interview\Product\Application\Query\GetProductQueryInterface;
 use Interview\Product\Application\Query\ProductView;
 use Interview\Product\Exception\Infrastructure\ProductNotFoundException;
 
 class GetProductQuery implements GetProductQueryInterface
 {
+    use CreateProductViewTrait;
+
     private Connection $connection;
 
     public function __construct(Connection $connection)
@@ -44,16 +47,5 @@ class GetProductQuery implements GetProductQueryInterface
         }
 
         return $productList;
-    }
-
-    protected function createProductViewFromArray(array $productData) : ProductView
-    {
-        $product = new ProductView();
-        $product->id = $productData['id'];
-        $product->name = $productData['name'];
-        $product->price = $productData['price_amount'];
-        $product->currency = $productData['price_currency'];
-
-        return $product;
     }
 }
