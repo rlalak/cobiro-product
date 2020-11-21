@@ -15,6 +15,10 @@ To call command inside container you have to run application and then use comman
 ## Configure database
 Run migrations to prepare database: `bin/console doctrine:migration:migrate`.
 
+## Configure read model
+All queries use different model than command. Read model is updating partially after run command.  
+To make full synchronize run command: `bin/console product:synchronize`
+
 ## Tests
 To run unit tests use command `bin/phpunit`
 To run integration tests use command `bin/phpunit -c phpunit.integration.xml`
