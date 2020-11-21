@@ -11,5 +11,5 @@ interface GetProductQueryInterface
     /**
      * @return ProductView[]
      */
-    public function getAlProducts() : array;
+    public function getAllProducts() : array;
 }

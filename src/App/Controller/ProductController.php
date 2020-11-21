@@ -64,7 +64,7 @@ class ProductController
 
     public function getAll(GetProductQueryInterface $getProductQuery) : Response
     {
-        return new JsonResponse(['status' => 'OK', 'data' => $getProductQuery->getAlProducts()]);
+        return new JsonResponse(['status' => 'OK', 'data' => $getProductQuery->getAllProducts()]);
     }
 
     public function getById(string $id, GetProductQueryInterface $getProductQuery) : Response

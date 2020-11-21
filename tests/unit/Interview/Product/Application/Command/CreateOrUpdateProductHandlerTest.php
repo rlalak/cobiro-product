@@ -1,7 +1,7 @@
 <?php
 
 
-namespace UnitTests\Interview\Product\Application;
+namespace UnitTests\Interview\Product\Application\Command;
 
 
 use Interview\Product\Application\Command\CreateOrUpdateProductHandler;
@@ -23,6 +23,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @covers \Interview\Product\Application\Command\CreateOrUpdateProductHandler
  * @covers \Interview\Product\Application\Command\CreateProductCommand
  * @covers \Interview\Product\Application\Command\UpdateProductCommand
+ * @covers \Interview\Product\Domain\Event\ProductUpdatedEvent
+ * @covers \Interview\Product\Domain\Event\ProductCreatedEvent
  */
 class CreateOrUpdateProductHandlerTest extends TestCase
 {

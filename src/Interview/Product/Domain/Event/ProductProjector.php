@@ -19,8 +19,8 @@ class ProductProjector
     {
         // here I could send this event to some async queue to make read-model synchronizing async
         $this->projection->updateProduct(
-            $event->product->getId(),
-            $event->product->getName(),
+            (string) $event->product->getId(),
+            (string) $event->product->getName(),
             $event->product->getPrice()->getAmount(),
             $event->product->getPrice()->getCurrency(),
         );
@@ -29,8 +29,8 @@ class ProductProjector
     public function whenProductUpdated(ProductUpdatedEvent $event) : void
     {
         $this->projection->updateProduct(
-            $event->product->getId(),
-            $event->product->getName(),
+            (string) $event->product->getId(),
+            (string) $event->product->getName(),
             $event->product->getPrice()->getAmount(),
             $event->product->getPrice()->getCurrency(),
         );

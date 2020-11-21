@@ -51,7 +51,7 @@ class ProductProjection implements ProductProjectionInterface, GetProductQueryIn
         return $this->createProductViewFromArray($productData);
     }
 
-    public function getAlProducts() : array
+    public function getAllProducts() : array
     {
         $items = $this->adapter->getItems($this->getAllProductsId());
         $products = [];

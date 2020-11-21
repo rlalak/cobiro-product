@@ -37,7 +37,7 @@ class GetProductQuery implements GetProductQueryInterface
     /**
      * @return ProductView[]
      */
-    public function getAlProducts() : array
+    public function getAllProducts() : array
     {
         $result = $this->connection->fetchAllAssociative('SELECT * FROM products');
 
