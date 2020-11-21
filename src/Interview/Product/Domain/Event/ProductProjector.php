@@ -17,7 +17,8 @@ class ProductProjector
 
     public function whenProductCreated(ProductCreatedEvent $event) : void
     {
-        // here I could send this event to some async queue to make read-model synchronizing async
+        // here I could send this event to some async queue to make synchronizing of read-model async
+        // i.e. https://symfony.com/doc/current/messenger.html
         $this->projection->updateProduct(
             (string) $event->product->getId(),
             (string) $event->product->getName(),

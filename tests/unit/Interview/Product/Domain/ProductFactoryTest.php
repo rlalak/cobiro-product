@@ -34,7 +34,7 @@ class ProductFactoryTest extends TestCase
     {
         $this->defaultPriceCurrency = 'EUR';
 
-        $product = $this->getFactory()->createFromRaw((string) Uuid::uuid1(), 'abc', '12');
+        $product = $this->getFactory()->createFromRaw(null, 'abc', '12');
 
         $this->assertEquals('abc', $product->getName());
         $this->assertEquals('12', $product->getPrice()->getAmount());
@@ -43,8 +43,18 @@ class ProductFactoryTest extends TestCase
 
     public function testItCreateProductFromRawDataWithGivenCurrency() : void
     {
-        $product = $this->getFactory()->createFromRaw((string) Uuid::uuid1(), 'xyz', '21', 'USD');
+        $product = $this->getFactory()->createFromRaw(null, 'xyz', '21', 'USD');
 
+        $this->assertEquals('xyz', $product->getName());
+        $this->assertEquals('21', $product->getPrice()->getAmount());
+        $this->assertEquals('USD', $product->getPrice()->getCurrency()->getCode());
+    }
+
+    public function testItCreateProductFromRawDataWithGivenId() : void
+    {
+        $product = $this->getFactory()->createFromRaw('bbf7beb4-4d2e-487c-9b1e-e5f1e48c0c29', 'xyz', '21', 'USD');
+
+        $this->assertEquals(Uuid::fromString('bbf7beb4-4d2e-487c-9b1e-e5f1e48c0c29'), $product->getId());
         $this->assertEquals('xyz', $product->getName());
         $this->assertEquals('21', $product->getPrice()->getAmount());
         $this->assertEquals('USD', $product->getPrice()->getCurrency()->getCode());
