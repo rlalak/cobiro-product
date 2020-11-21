@@ -20,12 +20,26 @@ All queries use different model than command. Read model is updating partially a
 To make full synchronize run command: `bin/console product:synchronize`
 
 ## Tests
-To run unit tests use command `bin/phpunit`
+To run unit tests use command `bin/phpunit`.
+
 To run integration tests use command `bin/phpunit -c phpunit.integration.xml`
 
 ## Example request
 ```
+# create new product
 curl -X POST -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/
+
+# update existing product
+curl -X PUT -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/340fd687-5528-4701-b6eb-a5f254de0783
+
+# get product details
+curl -X GET -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/340fd687-5528-4701-b6eb-a5f254de0783
+
+# get all products
+curl -X GET -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/
+
+# remove product
+curl -X DELETE -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/340fd687-5528-4701-b6eb-a5f254de0783
 ```
 
 ## Development
