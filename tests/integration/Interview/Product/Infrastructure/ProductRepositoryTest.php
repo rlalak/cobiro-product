@@ -11,13 +11,13 @@ use Interview\Product\Infrastructure\Doctrine\ORM\ProductRepository;
 use Money\Currency;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Class ProductRepositoryTest
  * @package IntegrationTests\Interview\Product\Infrastructure
  *
- * @covers \Interview\Product\Infrastructure\ProductRepository
- * @covers \Interview\Product\Exception\Infrastructure\InvalidObjectToSaveException
+ * @covers \Interview\Product\Infrastructure\Doctrine\ORM\ProductRepository
  */
 class ProductRepositoryTest extends IntegrationTestCase
 {
@@ -29,9 +29,10 @@ class ProductRepositoryTest extends IntegrationTestCase
         $this->repository = $this->get(ProductRepository::class);
     }
 
-    public function testSaveProduct() : void
+    public function testSaveProduct() : UuidInterface
     {
         $uuid = Uuid::uuid1();
+
         $product = new Product(
             $uuid,
             new ProductName('nazwa'),
@@ -40,11 +41,39 @@ class ProductRepositoryTest extends IntegrationTestCase
 
         $this->repository->save($product);
 
-        $productRawData = $this->executeQuery("SELECT name, price_amount, price_currency limit 1")->fetchOne();
+        $productRawData = $this->getProductDataById($uuid);
 
         $this->assertEquals((string) $uuid, $productRawData['id']);
         $this->assertEquals('nazwa', $productRawData['name']);
         $this->assertEquals('123', $productRawData['price_amount']);
         $this->assertEquals('PLN', $productRawData['price_currency']);
+
+        return $uuid;
+    }
+
+    /**
+     * @depends testSaveProduct
+     */
+    public function testRemoveProduct(UuidInterface $uuid) : void
+    {
+        $productRawData = $this->getProductDataById($uuid);
+
+        $this->assertNotEmpty($productRawData);
+
+        $this->repository->remove($uuid);
+
+        $productRawData = $this->getProductDataById($uuid);
+
+        $this->assertNull($productRawData);
+    }
+
+    protected function getProductDataById(UuidInterface $uuid) : ?array
+    {
+        $result = $this->executeQuery(
+            "SELECT * FROM products WHERE id = :id LIMIT 1",
+            ['id' => (string) $uuid]
+        )->fetch();
+
+        return $result ? $result : null;
     }
 }

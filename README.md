@@ -15,12 +15,13 @@ To call command inside container you have to run application and then use comman
 ## Configure database
 Run migrations to prepare database: `bin/console doctrine:migration:migrate`.
 
-## Unit test
+## Tests
 To run unit tests use command `bin/phpunit`
+To run integration tests use command `bin/phpunit -c phpunit.integration.xml`
 
 ## Example request
 ```
-curl -X POST -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/product/save
+curl -X POST -d '{"name":"Super produkt","priceAmount":"10023", "priceCurrency": "USD"}' http://127.0.0.1:8081/products/
 ```
 
 ## Development

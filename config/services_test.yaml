@@ -5,4 +5,4 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: true
 
-    Interview\Product\Infrastructure\ProductRepository:
+    Interview\Product\Infrastructure\Doctrine\ORM\ProductRepository:
